@@ -17,6 +17,8 @@ public class Program {
 
 
         Seller seller1 = new Seller(13, "neymar", "neymar@hotmail", new Date(), 4000.0, new Department(1,null));
-        sellerDao.update(seller1);
+
+
+        sellerDao.deleteById(100);
     }
 }
