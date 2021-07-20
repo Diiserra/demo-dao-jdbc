@@ -18,7 +18,9 @@ public class Program {
         System.out.println(seller);
 
         List<Seller> sellerList = sellerDao.findByDepartment(seller.getDepartment());
+        sellerList.forEach(System.out::println);
 
+        sellerList = sellerDao.findAll();
         sellerList.forEach(System.out::println);
 
     }
