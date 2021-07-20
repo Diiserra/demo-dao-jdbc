@@ -5,10 +5,7 @@ import dbServices.DbExeception;
 import model.entities.Department;
 import model.entities.Seller;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +21,34 @@ public class SellerDaoJDBC implements  SellerDao{
 
     @Override
     public void insert(Seller obj) {
-
+        PreparedStatement st = null;
+        ResultSet rs = null;
+        try {
+            String idGenereter = "SELECT AUTOINCREMENT.nextval id FROM dual";
+            st = conn.prepareStatement(idGenereter);
+            rs = st.executeQuery();
+            if (rs.next()){
+                int idSeller = rs.getInt("id");
+                obj.setId(idSeller);
+                String sql = "INSERT INTO seller (id, name, email, birthDate, baseSalary, departmentId) VALUES (?, ?, ?, ?, ?, ?)";
+                st = conn.prepareStatement(sql);
+                st.setInt(1, obj.getId());
+                st.setString(2, obj.getName());
+                st.setString(3, obj.getEmail());
+                st.setDate(4, new Date(obj.getBirthDate().getTime()));
+                st.setDouble(5, obj.getBaseSalaty());
+                st.setInt(6, obj.getDepartment().getId());
+                int rows = st.executeUpdate();
+                System.out.println(rows);
+            }else {
+                throw new DbExeception("Error, não foi possivel inserir");
+            }
+        }catch (SQLException e){
+            throw new DbExeception(e.getMessage());
+        }finally {
+            DB.closeStatement(st);
+            DB.closeResultSet(rs);
+        }
     }
 
     @Override

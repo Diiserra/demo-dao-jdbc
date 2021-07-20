@@ -14,14 +14,9 @@ public class Program {
 
         SellerDao sellerDao = DaoFactory.createSellerDao();
 
-        Seller seller = sellerDao.findById(2);
-        System.out.println(seller);
 
-        List<Seller> sellerList = sellerDao.findByDepartment(seller.getDepartment());
-        sellerList.forEach(System.out::println);
 
-        sellerList = sellerDao.findAll();
-        sellerList.forEach(System.out::println);
-
+        Seller seller1 = new Seller(null, "Greg", "greg@hotmail", new Date(), 4000.0, new Department(1,null));
+        sellerDao.insert(seller1);
     }
 }
